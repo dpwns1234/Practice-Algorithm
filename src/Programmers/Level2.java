@@ -1,13 +1,15 @@
+package Programmers;
 
 import java.util.HashMap;
 import java.util.Vector;
 
-class test {
+class Level2 {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
 		solution(record);
 		
 	}
+	// 해당 문제 https://programmers.co.kr/learn/courses/30/lessons/42888
     public static void solution(String[] record) {
     	Vector<String> answer = new Vector<String>();
     	// 설명 : Enter일 경우 answer에 name빼고 문자열만 저장 -> 마지막에 name이랑 문자열이랑 합치기
