@@ -1,0 +1,139 @@
+package Programmers;
+
+import java.util.HashMap;
+import java.util.Vector;
+
+class Programmers {
+	public static void main(String[] args) {
+		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
+		Level2 level2 = new Level2();
+		level2.solution2(3);
+		
+		return;
+	}
+
+	public static class Level2 {
+		// 문제: https://programmers.co.kr/learn/courses/30/lessons/42888
+	    public void solution1(String[] record) {
+	    	Vector<String> answer = new Vector<String>();
+	    	// 설명 : Enter일 경우 answer에 name빼고 문자열만 저장 -> 마지막에 name이랑 문자열이랑 합치기
+	        // Map으로 id 기록
+	        HashMap<String, String> recordId = new HashMap<String, String>();
+	        // 1. Enter, Leave, Change 비교 answer저장
+	        for(int i=0; i<record.length; i++) {
+	        	
+	        	String order = record[i].split(" ")[0];
+	        	String id = record[i].split(" ")[1];
+	        	
+	            // 2. Enter -> 저장 or 변경 / Leave -> 저장 / Change -> 변경
+	        	switch(order) {
+	        	case "Enter":
+	        	{
+	        		String name = record[i].split(" ")[2];
+	        		// id가 기록된 적이 없다면(= 처음 들어온 친구) -> answer에 문자열 저장
+	        		// if(recordId.get(id) == null || recordId.get(id).isEmpty())
+	        		answer.add(id + "님이 들어왔습니다.");
+	        		recordId.put(id, name);
+	        		break;
+	        	}
+	        	case "Leave":
+	        	{
+	        		answer.add( id + "님이 나갔습니다.");
+	        		break;
+	        	}
+	        	    		
+	        	case "Change":
+	        	{
+	        		String name = record[i].split(" ")[2];
+	        		recordId.put(id, name);
+	        		break;
+	        	}	
+	        	default:
+	        		break;
+	        	}
+	        }
+	        
+	        for(int i=0; i<answer.size(); i++)
+	        {
+	        	String id = answer.get(i).split("님")[0];
+	        	String name = recordId.get(id);
+	        	String change = answer.get(i).replaceAll(id, name);
+	        	answer.set(i, change);
+	        }
+
+	        for(int i=0; i<answer.size(); i++) {
+	        	System.out.println(answer.get(i));
+	        }
+	    }
+
+	    // 문제: https://programmers.co.kr/learn/courses/30/lessons/12899
+	    public void solution2(int n) {
+	    	String answer = "";
+	    	StringBuffer sb = new StringBuffer("");
+	    	int remainder = 0;
+
+	    	// n = 3일 때 예외처리이다. 일단 급한대로 설정하긴 했지만 나중에 수정하도록 하자.
+	    	if(n==3)
+                return;
+	    	
+	    	while(n > 0)
+	    	{
+	    		remainder = n % 3;
+	    		sb.append(Integer.toString(remainder));
+	    		n /= 3;
+	    	}
+	    	// 3진법에 맞게 역순으로 적절히 바꿔줌.
+	    	sb = sb.reverse();
+	    	// 히든케이스: 513 -> 124224
+	    	for(int i=0; i<sb.length(); i++)
+	    	{
+	    		if(sb.charAt(i) == '0')
+	    		{
+	    			if(sb.charAt(i-1) == '1')
+	    				{
+	    					sb.setCharAt(i-1, '0');
+	    					// 앞의 수를 0으로 만들었기 때문에 앞으로 다시 가서 연산.
+	    					// 단, 위에서 i-1의 인덱스를 참고하고 있기 때문에 인덱스가 0으로 가는 일은 없도록 해야한다.
+	    					if(i==1)
+	    						continue;
+	    					sb.setCharAt(i, '4');
+	    					i -= 2; // for문의 i++가 있기 때문에 -2를 해준다.
+	    					continue;
+	    				}
+	    			
+	    			else if(sb.charAt(i-1) == '2')
+	    				sb.setCharAt(i-1, '1');
+	    			
+	    			else if(sb.charAt(i-1) == '4')
+	    				sb.setCharAt(i-1, '2');
+	    				
+	    			sb.setCharAt(i, '4');
+	    		}
+	    	}
+	    	
+	    	answer = sb.toString();
+	    	answer = answer.replace("0", "");
+	    	System.out.println(answer);
+	    	
+	    	
+	    	// 3진법으로 변환. 402 -> 12220 -> 12214
+	    	// 10 -> 101 -> 41
+//	    	10진법	124 나라	 10진법	124 나라
+//	    	1	1	1  /	  6	  14	20	/	11	42	102
+//	    	2	2	2  /	  7	  21	21	/	12	44	110   104 44
+//	    	3	4	10 /	  8	  22	22	/	13	111	111
+//	    	4	11	11 /	  9	  24	100	/	14	112	112
+//	    	5	12	12 / 	 10   41	101	/	15	114	120 
+	    	// 3진법의 2 -> 0 으로 가는 지점, 124진법에서 2 -> 4로 가는 지점에서 차이가 생김.
+	    	// 0 앞에 1이 있으면 0을 4로, 1을 0으로 만들기 
+	    	// 0 앞에 2가 있으면 0을 4로, 2를 1로 만들기. 덧셈에서 빌림과 비슷.
+	    	// 0 앞에 0이 있으면 앞에 0이 없을 때까지 이동, 
+	    	// 0이 없을 때까지 반복.
+	    	
+	    	// 513 -> 201000 -> 141000 -> 140400 -> 124400 ->
+	    	// 100001 -> 04001
+	    }
+	}
+}
+
+
