@@ -6,14 +6,16 @@ import java.util.Vector;
 class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
-		Level2 level2 = new Level2();
-		level2.solution2(3);
+		Level2 level2 = new Level2(); 
+		int answer = level2.solution3("aabbaccc");
+		System.out.println(answer);
+
 		
 		return;
 	}
 
 	public static class Level2 {
-		// 문제: https://programmers.co.kr/learn/courses/30/lessons/42888
+		// 문제: https://programmers.co.kr/learn/courses/30/lessons/42888 소요시간-1~2시간
 	    public void solution1(String[] record) {
 	    	Vector<String> answer = new Vector<String>();
 	    	// 설명 : Enter일 경우 answer에 name빼고 문자열만 저장 -> 마지막에 name이랑 문자열이랑 합치기
@@ -60,13 +62,13 @@ class Programmers {
 	        	String change = answer.get(i).replaceAll(id, name);
 	        	answer.set(i, change);
 	        }
+	        String b = "231";
 
 	        for(int i=0; i<answer.size(); i++) {
 	        	System.out.println(answer.get(i));
 	        }
 	    }
-
-	    // 문제: https://programmers.co.kr/learn/courses/30/lessons/12899
+	    // 문제: https://programmers.co.kr/learn/courses/30/lessons/12899 소요시간-2일
 	    public void solution2(int n) {
 	    	String answer = "";
 	    	StringBuffer sb = new StringBuffer("");
@@ -133,6 +135,64 @@ class Programmers {
 	    	// 513 -> 201000 -> 141000 -> 140400 -> 124400 ->
 	    	// 100001 -> 04001
 	    }
+	    // 문제: https://programmers.co.kr/learn/courses/30/lessons/60057 소요시간-2~3시간
+		public int solution3(String s) {
+	        int answer = s.length();
+	        String cuttingString = "";
+	        // 최대로 압축해도 2개로 압축하는 것이기 때문에 이와 같이 반복
+	        for(int cuttingNum=1; cuttingNum <= s.length()/2; cuttingNum++)
+	        {
+	        	// cnt 1로 바꾸기 왜냐면 겹치는 순간 2니까
+	            int tryNum = 0;
+	            int cnt = 1;	// 반복되는 앞의 숫자를 표현
+	            
+	            int startIndex = 0;
+	            int endIndex = cuttingNum;
+	            
+	            while(s.length() >= endIndex)
+	            {
+	                cuttingString = s.substring(startIndex, endIndex);
+	                // 뒤의 문자열이 남았다면 그냥 붙여준다.
+	                if(endIndex + cuttingNum > s.length())
+	                {
+	                	// 반복되는 숫자를 계산하고 있었다면 정산해주고,
+	                	if(cnt != 1)
+	                		cnt = (int) Math.log10(cnt) + 1;
+	                	else
+	                		cnt = 0;
+	                	tryNum += cuttingNum + cnt;
+	                	
+	    	            // 남은 숫자를 더해준다.
+	                    tryNum += (s.length()-endIndex);
+	                    break;
+	                }
+	                String nextString = s.substring(endIndex, endIndex+cuttingNum);
+	                
+	                // 다음 문자열과 같으면, 반복되었음을 알려줌.
+	                if(cuttingString.equals(nextString))
+	                	cnt++;
+	                // 아니면, tryNum 갱신
+	                else
+	                {
+	                	if(cnt != 1)
+	                		cnt = (int) Math.log10(cnt) + 1;
+	                	else
+	                		cnt = 0;
+	                	tryNum += cuttingNum + cnt;
+	                	
+	                	cnt=1;
+	                }
+	                
+	                startIndex = endIndex;
+	                endIndex += cuttingNum;
+	                
+	            }
+	            // tryNum과 answer과 최소값 구하기.
+                if(answer > tryNum)
+                	answer = tryNum;
+	        }
+	        return answer;
+		}
 	}
 }
 
