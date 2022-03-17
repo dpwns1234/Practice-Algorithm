@@ -7,7 +7,7 @@ class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
 		Level2 level2 = new Level2(); 
-		int answer = level2.solution3("aabbaccc");
+		int answer = level2.solution4(record);
 		System.out.println(answer);
 
 		
@@ -193,6 +193,108 @@ class Programmers {
 	        }
 	        return answer;
 		}
+		
+		public int solution4(String[] data) {
+			int answer = 0;
+			int cnt = 0;
+			StringBuffer line = new StringBuffer("***********");
+			
+			String me = "N";
+			String another = "F";
+			String sign = "=";
+			int signNum = 0;
+			
+			char me2 = 'R';
+			char another2 = 'T';
+			String sign2 = ">";
+			int signNum2 = 2;
+			
+			// 인덱스로 하지 않고 그냥 숫자대로 진행하기로 함.
+			for(int i=1; i<=8; i++)
+			{
+				// i의 자리가 비어있거나(=*) 또는 자기 자신의 자리라면 진행
+				if(line.charAt(i) == '*' || line.charAt(i) == me2)
+					line.setCharAt(i, me2);
+				else
+					continue;
+				
+				// for runtime error
+				if(i+signNum2 > 8)
+					break;
+				
+				//for(int j=0; j<)
+				if(line.charAt(i+signNum2) == '*' || line.charAt(i+signNum2) == another2)
+					line.setCharAt(i+signNum2, another2);
+				else
+					continue;
+				
+				cnt++;
+			}
+			
+			
+			// n > 일 경우 (초과)
+			cnt = 0;
+			// me 늘리기 반복문
+			for(int i=1; i<=8; i++)
+			{
+				// another 늘리기 반복문
+				for(int j=signNum2; j<7; j++)
+				{				
+					int distance = j + 1;
+					
+					line.setCharAt(i, me2);
+					// another이 배치될 수 있다면 cnt++;
+					if(i+distance <= 8)
+					{
+						line.setCharAt(i+distance, another2);
+						cnt++;
+					}
+					// line 초기화
+					
+					// another이 뒤쪽으로 배치될 수 있다면 cnt++;
+					if(i-distance >= 1)
+					{
+						line.setCharAt(i-distance, another2);
+						cnt++;
+					}
+					// line 초기화
+					
+				}
+			}
+			
+			
+			// < n 일 경우(미만)
+			cnt=0;
+			
+			// me가 한 칸씩 이동 
+			for(int i=1; i<=8; i++)
+			{
+				// another가 me한테로 한 칸씩 이동
+				for(int j=signNum2; j>=1; j--)
+				{
+					int distance = j;
+					
+					if(i+distance <= 8)
+					{
+						line.setCharAt(i, me2);
+						line.setCharAt(i+distance, another2);
+						cnt++;
+					}
+					
+					if(i-distance >= 1)
+					{
+						line.setCharAt(i, another2);
+						line.setCharAt(i+distance, me2);
+						cnt++;
+					}
+					
+				}
+			}
+			
+			answer = cnt;
+			return answer;
+		}
+	
 	}
 }
 
