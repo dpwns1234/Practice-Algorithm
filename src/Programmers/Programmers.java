@@ -193,7 +193,7 @@ class Programmers {
 	        }
 	        return answer;
 		}
-		// 문제: https://programmers.co.kr/learn/courses/30/lessons/1835 1차시도(4시간) 실패
+		// 문제: https://programmers.co.kr/learn/courses/30/lessons/1835 1차시도(4시간) 실패 / 
 		public int solution4(String[] data) {
 			int answer = 0;
 			int cnt = 0;
