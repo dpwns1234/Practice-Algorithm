@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class Backjoon {
 	public static void main(String[] args) {
-		p1138();
+		p1051();
 	}
 	
 	// 문제: https://www.acmicpc.net/problem/15829 
@@ -58,6 +58,53 @@ public class Backjoon {
         for(int i=0; i<n; i++) {
         	System.out.print(answer.get(i) + " ");
         }
+	}
+	
+	public static void p1051() {
+		Scanner scr = new Scanner(System.in);
+		int row, col;
+		col = scr.nextInt();
+		row = scr.nextInt();
+
+		// 입력
+		int[][] square = new int[col][row];
+		for(int i=0; i<col; i++) {
+			String line = scr.next();
+			for(int j=0; j<line.length(); j++) {
+				square[i][j] = line.charAt(j) - '0';
+			}
+		}
 		
+		// maxLine * maxLine = answer
+		int maxLine = 0;
+		
+		for(int i=0; i<col; i++) {
+			// 최대 길이가 세로보다 길다면 더이상 찾지 않아도 되므로 break
+			if(maxLine >= col)
+				break;
+			
+			for(int j=0; j<row; j++) {
+				int cnt = 1;
+				while(true) {
+					// 가로 기준 가장 넓은 길이를 찾는다.
+					// 하지만 세로길이를 넘어설 경우 반복 횟수를 줄이기 위해 + 가로길이를 넘기지 않기 위해 break를 사용
+					if(cnt+i >= col || cnt+j >= row)
+						break;
+					
+					// 4 꼭지점이 모두 같을 경우 maxLine 갱신
+					if(square[i][j] == square[i][j+cnt])
+						if(square[i+cnt][j] == square[i+cnt][j+cnt] && square[i][j] == square[i+cnt][j])
+							maxLine = Math.max(maxLine, cnt);
+						
+					cnt++;
+				}
+				
+			}
+		}
+		
+		// 위에서 구한 maxLine은 길이가 아닌 그 사이 간격이었으므로 1을 더해준다.
+		maxLine += 1;
+		// 출력
+		System.out.println(maxLine*maxLine);
 	}
 }
