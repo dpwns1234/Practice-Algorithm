@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class Backjoon {
 	public static void main(String[] args) {
-		p1051();
+		p1052();
 	}
 	
 	// 문제: https://www.acmicpc.net/problem/15829 
@@ -61,6 +61,7 @@ public class Backjoon {
 	}
 	
 	public static void p1051() {
+
 		Scanner scr = new Scanner(System.in);
 		int row, col;
 		col = scr.nextInt();
@@ -106,5 +107,56 @@ public class Backjoon {
 		maxLine += 1;
 		// 출력
 		System.out.println(maxLine*maxLine);
+	}
+
+	public static void p1052() {
+		
+		Scanner scr = new Scanner(System.in);
+		int n = scr.nextInt();
+		int k = scr.nextInt();
+		
+		// 1. 이진수로 바꾼다.
+		String binary = Integer.toBinaryString(n);
+		
+		// 2. binary의 1의 개수가 k 보다 크면 3으로 아니면 0 리턴
+		int cnt = 0;
+		for(int i=0; i< binary.length(); i++) {
+			if(binary.charAt(i) == '1')
+				cnt++;
+		}
+		
+		if(cnt <= k) {
+			System.out.print(0);
+			return;
+		}
+		
+		// 3. k만큼 1로 이동(0은 그냥 넘김). 그리고 그 자리 수를 10진수로 바꾼다. = goalCnt
+		// 예를 들어 101101 에서 goalCnt = 100000 이고, hadCnt = 1101 이다.
+		// 그리고 answer = goalCnt(100000) - hadCnt(1101) 이다.
+		// 아래의 for문은 '101101'을 구하기 위한 함수이다.
+		String subBin = null;
+		for(int i=0; i<binary.length(); i++) {
+			if(binary.charAt(i) == '1') {
+				k--;
+			}
+			
+			if(k==0) {
+				subBin = binary.substring(i);
+				break;
+			}
+		}
+		
+		int subCnt = Integer.parseInt(subBin, 2);
+		
+		// 4. 그 뒤의 부분을 10진수로 바꾼다. = hadCnt
+		String hadCntBin = subBin.substring(1);
+		int hadCnt = Integer.parseInt(hadCntBin, 2);
+		
+		int goalCnt = subCnt - hadCnt;
+		
+		int answer = goalCnt - hadCnt;
+		
+		System.out.println(answer);
+		
 	}
 }
