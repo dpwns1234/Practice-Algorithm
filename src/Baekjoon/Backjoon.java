@@ -1,13 +1,106 @@
 package Baekjoon;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
 public class Backjoon {
+	// for p1063
+	private static int kingRow;
+	private static int kingCol;
+	private static int stoneRow;
+	private static int stoneCol;
+	// for p1063
+	
 	public static void main(String[] args) {
-		p1052();
+		p1063();
+	}
+	
+	public static void p1063() {
+		Scanner scr = new Scanner(System.in);
+		String king = scr.next();
+		String stone = scr.next();
+		int n = scr.nextInt();
+		
+		int [][] chessBoard = new int [8][8];
+		
+		// 배치
+		kingCol = king.charAt(1) - '1';
+		kingRow = king.charAt(0) - 'A';
+		stoneCol = stone.charAt(1) - '1';
+		stoneRow = stone.charAt(0) - 'A';
+		
+		// input & move
+		for(int i=0; i<n; i++) {
+			String order = scr.next();
+			switch(order)
+			{
+			case "T":	// 상
+				p1063Move(0, 1);
+				break;
+			case "B":	// 하
+				p1063Move(0, -1);
+				break;
+			case "L":	// 좌
+				p1063Move(-1, 0);
+				break;
+			case "R":	// 우
+				p1063Move(1, 0);
+				break;
+			case "LT":	// 북서
+				p1063Move(-1, 1);
+				break;
+			case "RT":	// 북동
+				p1063Move(1, 1);
+				break;
+			case "LB":	// 남서
+				p1063Move(-1, -1);
+				break;
+			case "RB":	// 남동
+				p1063Move(1, -1);
+				break;
+			}
+		}
+		
+		String kingLocation = String.valueOf((char)('A' + kingRow)) + (1 + kingCol);
+		String stoneLoaction = String.valueOf((char)('A' + stoneRow)) + (1 + stoneCol);
+		
+		System.out.println(kingLocation + "\n" + stoneLoaction);
+		
+	}
+	static void p1063Move(int moveRow, int moveCol) {
+		// 이동되는 거리가 체스판 밖일 경우 옮기지 않는다.
+		if(kingRow + moveRow >= 8 || kingRow + moveRow < 0 || kingCol + moveCol >= 8 || kingCol + moveCol < 0)
+			return;
+		
+		
+		// king의 이동 자리에 stone이 있을 경우
+		if((kingRow + moveRow) == stoneRow && (kingCol + moveCol) == stoneCol)
+		{
+			// stone이 움직일 수 있는지 판단한다.
+			if(stoneRow + moveRow >= 8 || stoneRow + moveRow < 0 || stoneCol + moveCol >= 8 || stoneCol + moveCol < 0)
+			{
+				// 모두 움직이지 않고 return 한다.
+				return;
+			}
+			else
+			{
+				// 둘 모두 움직이고 return 한다.
+				kingRow += moveRow;
+				kingCol += moveCol;
+				
+				stoneRow += moveRow;
+				stoneCol += moveCol;
+			}
+		}
+		// stone의 자리가 겹치지 않을 경우 king만 옮겨준다.
+		else
+		{
+			kingRow += moveRow;
+			kingCol += moveCol;
+		}
 	}
 	
 	// 문제: https://www.acmicpc.net/problem/15829 
@@ -159,4 +252,6 @@ public class Backjoon {
 		System.out.println(answer);
 		
 	}
+
+
 }
