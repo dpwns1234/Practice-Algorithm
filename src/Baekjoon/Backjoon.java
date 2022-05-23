@@ -15,7 +15,53 @@ public class Backjoon {
 	// for p1063
 	
 	public static void main(String[] args) {
-		p1063();
+		p1025();
+	}
+	
+	public static void p1025() {
+		int n, p, myScore;
+		Scanner scr = new Scanner(System.in);
+		
+		// input
+		n = scr.nextInt();
+		myScore = scr.nextInt();
+		p = scr.nextInt();
+		
+		int [] ranking = new int [p];
+        // 0으로 초기화 되서 발생하는 오류를 막기 위해 마지막 배열의 값을 음수로 채워준다.
+        ranking[p-1] = -1;
+		for(int i=0; i<n; i++) {
+			ranking[i] = scr.nextInt();
+		}
+        
+		// logic
+		int rank = 1;
+		for(int i=0; i<p; i++) {
+			// 랭킹보다 크면 바로 랭킹 알려주고 종료
+			if(myScore > ranking[i])
+			{
+				System.out.print(rank);
+				return;
+			}
+			// myScore가 랭킹과 같은 경우
+			else if(myScore == ranking[i])
+			{
+				// 만일 myScore이 랭킹의 마지막까지 반복되는 것이라면 결국 ranking에 myScore가 들어가면
+				// ranking을 초과하는 것이므로 -1을 print해준다.
+				if(myScore != ranking[p-1])
+					System.out.print(rank);
+				else
+					System.out.print(-1);
+				
+				return;
+			}
+			// 작다면 계속해서 랭킹을 증가시켜준다.
+			else
+				rank++;
+		}
+		
+		System.out.print(-1);
+		
 	}
 	
 	public static void p1063() {
