@@ -1,19 +1,46 @@
 package Programmers;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 
 class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
-		Level2 level2 = new Level2(); 
-		int answer = level2.solution4(record);
-		System.out.println(answer);
+//		Level2 level2 = new Level2(); 
+//		int answer = level2.solution4(record);
+//		System.out.println(answer);
+		Level1 level1 = new Level1();
+		int [] answer2 = level1.solution1();
 
 		
 		return;
 	}
 
+	public static class Level1 {
+		// K번째 수
+		public int[] solution1() {
+			int[] array = {1, 5, 2, 6, 3, 7, 4};
+			int[][] commands = {{2, 5, 3}, {4, 4, 1}, {1, 7, 3}};
+			int[] answer = new int [commands.length];
+	        for(int index=0; index < commands.length; index++) {
+	            int i = commands[index][0];
+	            int j = commands[index][1];
+	            int k = commands[index][2];
+	            int [] tmpList= new int [j-i+1];
+	            // -1 해준 이유는 index로 변경하기 위함
+	            for(int index2=i-1, tmpIndex=0; index2<=j-1; index2++, tmpIndex++) {
+	                tmpList[tmpIndex] = array[index2];
+	            }
+	            
+	            // 오름차순 정렬
+	            Arrays.sort(tmpList);
+	            
+	            answer[index] = tmpList[k-1];
+	        }
+	        return answer;
+		}
+	}
 	public static class Level2 {
 		// 문제: https://programmers.co.kr/learn/courses/30/lessons/42888 소요시간-1~2시간
 	    public void solution1(String[] record) {
