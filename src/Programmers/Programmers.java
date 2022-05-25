@@ -1,19 +1,50 @@
 package Programmers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
+
+
+class Pair implements Comparable<Pair> {
+    int originNum;
+    int thousandNum;
+    
+    public Pair(int originNum, int thousandNum) {
+        this.originNum = originNum;
+        this.thousandNum = thousandNum;
+    }
+    
+    public int getOriginNum() {
+        return this.originNum;
+    }
+    
+    public int getSize() {
+    	return this.getSize();
+    }
+    
+    @Override
+    public int compareTo(Pair pair) {
+        if(pair.thousandNum < thousandNum)
+            return 1;
+        else if (pair.thousandNum > thousandNum)
+            return -1;
+        else 
+            return 0;
+    }
+}
+
 
 class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
-//		Level2 level2 = new Level2(); 
-//		int answer = level2.solution4(record);
-//		System.out.println(answer);
-		Level1 level1 = new Level1();
-		int [] answer2 = level1.solution1();
+		Level2 level2 = new Level2(); 
+		level2.solution5();
+		//System.out.println(answer);
+//		Level1 level1 = new Level1();
+//		int [] answer2 = level1.solution1();
 
-		
 		return;
 	}
 
@@ -42,6 +73,45 @@ class Programmers {
 		}
 	}
 	public static class Level2 {
+		
+		// 가장 큰 수
+		public void solution5() {
+			int [] numbers = {3, 30, 34, 5, 9};
+	        String answer = "";
+	        // 원래 수, 1000 단위 수 로 변환
+	        ArrayList<Pair> pairList = new ArrayList<>();
+	        for(int i=0; i<numbers.length; i++) {
+	        	int divisor = 0;
+	            // number가 0일 경우 Log를 취하면 infinity가 나오기 때문
+	            if(numbers[i] != 0)
+	                divisor = (int) Math.log10(numbers[i]);
+	            switch(divisor) {
+	                case 0:
+	                    pairList.add(new Pair(numbers[i], numbers[i] * 1000));
+	                    break;
+	                case 1:
+	                    pairList.add(new Pair(numbers[i], numbers[i] * 100));
+	                    break;
+	                case 2:
+	                    pairList.add(new Pair(numbers[i], numbers[i] * 10));
+	                    break;
+	                case 3:
+	                    pairList.add(new Pair(numbers[i], numbers[i]));
+	                    break;
+		            }
+	        }
+	        // 정렬
+	        Collections.sort(pairList);
+	        
+	        for(int i=0; i<pairList.size(); i++) {
+	            answer += Integer.toString(pairList.get(i).getOriginNum());
+	        }
+	        
+	        System.out.println(answer);
+	        
+		}
+		
+		
 		// 문제: https://programmers.co.kr/learn/courses/30/lessons/42888 소요시간-1~2시간
 	    public void solution1(String[] record) {
 	    	Vector<String> answer = new Vector<String>();
