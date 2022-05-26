@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.Comparator;
 
 
 class Pair implements Comparable<Pair> {
@@ -78,33 +79,40 @@ class Programmers {
 		public void solution5() {
 			int [] numbers = {3, 30, 34, 5, 9};
 	        String answer = "";
-	        // 원래 수, 1000 단위 수 로 변환
-	        ArrayList<Pair> pairList = new ArrayList<>();
-	        for(int i=0; i<numbers.length; i++) {
-	        	int divisor = 0;
-	            // number가 0일 경우 Log를 취하면 infinity가 나오기 때문
-	            if(numbers[i] != 0)
-	                divisor = (int) Math.log10(numbers[i]);
-	            switch(divisor) {
-	                case 0:
-	                    pairList.add(new Pair(numbers[i], numbers[i] * 1000));
-	                    break;
-	                case 1:
-	                    pairList.add(new Pair(numbers[i], numbers[i] * 100));
-	                    break;
-	                case 2:
-	                    pairList.add(new Pair(numbers[i], numbers[i] * 10));
-	                    break;
-	                case 3:
-	                    pairList.add(new Pair(numbers[i], numbers[i]));
-	                    break;
-		            }
-	        }
-	        // 정렬
-	        Collections.sort(pairList);
+	        ArrayList<Integer>[] yj = new ArrayList [10];
 	        
-	        for(int i=0; i<pairList.size(); i++) {
-	            answer += Integer.toString(pairList.get(i).getOriginNum());
+	        for(int i=0; i<10; i++)
+	        	yj[i] = new ArrayList<Integer>();
+	        // 앞 자리 별로 나눠 담기
+	        for(int i=0; i<numbers.length; i++) {
+	            int frontNum = numbers[i];
+	            // 맨 앞자리 구하기
+	            while(true) {
+	            	if(frontNum / 10 == 0)
+	                    break;
+	                frontNum /= 10; 
+	               
+	            }
+	            yj[frontNum].add(numbers[i]);
+	        }
+	        
+	        // 각 자리별로 내림차순으로 정렬해준다.
+	        for(int i=0; i<yj.length; i++) {
+	            yj[i].sort(Comparator.reverseOrder());
+	        }
+	        
+	        // 앞자리가 제일 큰 9부터 answer에 넣는다.
+	        for(int i=9; i>=0; i--) {
+	        	// 단, 자리수가 낮은 것들부터 넣는다.
+	        	for(int exp=1; exp<=3; exp++) {
+		            for(int j=0; j<yj[i].size(); j++) {
+		            	 if(yj[i].get(j) / (int) Math.pow(10, exp) == 0) {
+	                        answer += Integer.toString(yj[i].get(j));
+	                        yj[i].remove(j);
+		            	 }
+		            }
+	        	}
+	        
 	        }
 	        
 	        System.out.println(answer);
