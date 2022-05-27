@@ -5,37 +5,32 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
-import java.util.Comparator;
+
 
 
 class Pair implements Comparable<Pair> {
-    int originNum;
-    int thousandNum;
-    
-    public Pair(int originNum, int thousandNum) {
-        this.originNum = originNum;
-        this.thousandNum = thousandNum;
-    }
-    
-    public int getOriginNum() {
-        return this.originNum;
-    }
-    
-    public int getSize() {
-    	return this.getSize();
-    }
-    
-    @Override
-    public int compareTo(Pair pair) {
-        if(pair.thousandNum < thousandNum)
-            return 1;
-        else if (pair.thousandNum > thousandNum)
-            return -1;
-        else 
-            return 0;
-    }
-}
+	private int originNum;
+	private int changedNum;
+	
+	public Pair(int originNum, int changedNum) {
+		this.originNum = originNum;
+		this.changedNum = changedNum;
+	}
 
+	@Override
+	public int compareTo(Pair pair) {
+		if(this.changedNum > pair.changedNum)
+			return 1;
+		else if (this.changedNum < pair.changedNum)
+			return -1;
+		else 
+			return 0;
+	}
+	
+	public int getOriginNum() {
+		return this.originNum;
+	}	
+}
 
 class Programmers {
 	public static void main(String[] args) {
@@ -77,43 +72,39 @@ class Programmers {
 		
 		// 가장 큰 수
 		public void solution5() {
-			int [] numbers = {3, 30, 34, 5, 9};
+			int [] numbers = {0,0, 1, 0};
 	        String answer = "";
-	        ArrayList<Integer>[] yj = new ArrayList [10];
-	        
-	        for(int i=0; i<10; i++)
-	        	yj[i] = new ArrayList<Integer>();
-	        // 앞 자리 별로 나눠 담기
+	        ArrayList<Pair> pairList = new ArrayList<>();
 	        for(int i=0; i<numbers.length; i++) {
-	            int frontNum = numbers[i];
-	            // 맨 앞자리 구하기
-	            while(true) {
-	            	if(frontNum / 10 == 0)
+	        	int divisor = 0;
+	            // number가 0일 경우 Log를 취하면 infinity가 나오기 때문
+	            if(numbers[i] != 0)
+	                divisor = (int) Math.log10(numbers[i]);
+	            switch(divisor) {
+	            	// 일의 자리 수
+	                case 0:
+	                    pairList.add(new Pair(numbers[i], numbers[i] * 1000 + numbers[i] * 100 + numbers[i] * 10 + numbers[i]) );
 	                    break;
-	                frontNum /= 10; 
-	               
-	            }
-	            yj[frontNum].add(numbers[i]);
-	        }
-	        
-	        // 각 자리별로 내림차순으로 정렬해준다.
-	        for(int i=0; i<yj.length; i++) {
-	            yj[i].sort(Comparator.reverseOrder());
-	        }
-	        
-	        // 앞자리가 제일 큰 9부터 answer에 넣는다.
-	        for(int i=9; i>=0; i--) {
-	        	// 단, 자리수가 낮은 것들부터 넣는다.
-	        	for(int exp=1; exp<=3; exp++) {
-		            for(int j=0; j<yj[i].size(); j++) {
-		            	 if(yj[i].get(j) / (int) Math.pow(10, exp) == 0) {
-	                        answer += Integer.toString(yj[i].get(j));
-	                        yj[i].remove(j);
-		            	 }
+	                case 1:
+	                    pairList.add(new Pair(numbers[i], numbers[i] * 100 + numbers[i]));
+	                    break;
+	                case 2:
+	                    pairList.add(new Pair(numbers[i], numbers[i] * 10 + numbers[i]/100));
+	                    break;
+	                case 3:
+	                    pairList.add(new Pair(numbers[i], numbers[i]));
+	                    break;
 		            }
-	        	}
-	        
 	        }
+	        // 정렬
+	        Collections.sort(pairList, Collections.reverseOrder());
+
+	        for(int i=0; i<pairList.size(); i++) {
+	            answer += Integer.toString(pairList.get(i).getOriginNum());
+	        }
+	        // "000000" 이런 경우 -> "0"으로 만들기
+	        if(answer.charAt(0) == '0')
+	            answer = "0";
 	        
 	        System.out.println(answer);
 	        
