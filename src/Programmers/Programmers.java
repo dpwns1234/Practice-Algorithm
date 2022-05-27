@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
-
+import java.util.stream.Collectors;
 
 
 class Pair implements Comparable<Pair> {
@@ -36,7 +36,7 @@ class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
 		Level2 level2 = new Level2(); 
-		level2.solution5();
+		level2.solution6();
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
 //		int [] answer2 = level1.solution1();
@@ -69,6 +69,38 @@ class Programmers {
 		}
 	}
 	public static class Level2 {
+		
+		public void solution6() {
+			int answer = 0;
+			int [] citations = {10,10,10,10,10};
+	        // array<int> -> ArrayList<Integer>
+	        ArrayList<Integer> tmpArray = (ArrayList<Integer>) Arrays.stream(citations).boxed().collect(Collectors.toList());
+	        
+	        // 기준이 되는 수를 pick
+	        for(int i=0; i<tmpArray.size(); i++) {
+	            int h = tmpArray.get(i), moreNum = 0, lessNum = 0;
+	            // h와 비교 대상이 되는 모든 수를 비교
+	            for(int j=0; j<citations.length; j++) {
+	                // 비교 대상보다 인용 횟수가 많으면 moreNum + 1
+	                if(h >= citations[j])
+	                    moreNum++;
+	            }
+	            lessNum = citations.length - moreNum; // 나머지 논문
+	            
+	            // 만일 기준에 모두 부합하다면
+	            if(moreNum >= h && lessNum <= h) {
+	            	answer = h;
+	                // 현재 h보다 작은 수들은 모두 제거한다. ( 최댓값을 구하기 때문)
+	                for(int k=0; k<tmpArray.size(); k++) {
+	                    if(tmpArray.get(k) <= h)
+	                        tmpArray.remove(k);
+	                }
+	            }
+	                
+	        }
+	        
+	        System.out.println(answer);
+		}
 		
 		// 가장 큰 수
 		public void solution5() {
