@@ -36,7 +36,7 @@ class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
 		Level2 level2 = new Level2(); 
-		level2.solution6();
+		level2.solution7();
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
 //		int [] answer2 = level1.solution1();
@@ -70,6 +70,50 @@ class Programmers {
 	}
 	public static class Level2 {
 		
+		// 완주하지 못한 선수
+		public void solution7() {
+	        String answer = "";
+	        String[] participant = {"leo", "kiki", "eden"};
+	        String[] completion = {"eden", "kiki"};
+	        
+	        HashMap<String, Integer> map = new HashMap<>();
+	        
+	        // 완주자명단 -> map 으로 변환
+	        for(int i=0; i<completion.length; i++) {
+	            // 동명이인일 경우
+	            if(map.containsKey(completion[i])) {
+	                int num = map.get(completion[i]);
+	                num++;
+	                map.put(completion[i], num);
+	            }
+	            else
+	                map.put(completion[i], 1);
+	        }
+	        
+	        // 불 완주자 찾기
+	        for(int i=0; i<participant.length; i++) {
+	        	// 완주자 명단에 없다면
+	            if(!map.containsKey(participant[i])){
+	                answer = participant[i];
+	                break;
+	            }
+	            // 동명이인 처리
+	            else {
+	                int num = map.get(participant[i]);
+	                num--;
+	                
+	                if(num < 0) {
+	                	answer = participant[i];
+	                	break;
+	                }
+	                map.put(participant[i], num);
+	            }
+	        }
+	        
+	        System.out.println(answer);
+		}
+		
+		// H-Index
 		public void solution6() {
 			int answer = 0;
 			int [] citations = {10,10,10,10,10};
