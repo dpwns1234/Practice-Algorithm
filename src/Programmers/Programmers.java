@@ -73,32 +73,25 @@ class Programmers {
 		public void solution6() {
 			int answer = 0;
 			int [] citations = {10,10,10,10,10};
-	        // array<int> -> ArrayList<Integer>
-	        ArrayList<Integer> tmpArray = (ArrayList<Integer>) Arrays.stream(citations).boxed().collect(Collectors.toList());
+	        int size = citations.length;
 	        
-	        // 기준이 되는 수를 pick
-	        for(int i=0; i<tmpArray.size(); i++) {
-	            int h = tmpArray.get(i), moreNum = 0, lessNum = 0;
-	            // h와 비교 대상이 되는 모든 수를 비교
-	            for(int j=0; j<citations.length; j++) {
-	                // 비교 대상보다 인용 횟수가 많으면 moreNum + 1
-	                if(h >= citations[j])
+	        for(int i=0; i<size; i++) {
+	            int h = size - i, moreNum = 0, lessNum = 0;
+	            for(int j=0; j<size; j++) {
+	                // 인용횟수가 h보다 클 경우
+	                if(citations[j] >= h)
 	                    moreNum++;
 	            }
-	            lessNum = citations.length - moreNum; // 나머지 논문
+	            lessNum = size - moreNum;
 	            
-	            // 만일 기준에 모두 부합하다면
+	            // (인용횟수가 h보다 큰)인용 논문이 h보다 클 경우 + 
+	            // (인용횟수가 h보다 작은)인용 논문이 h보다 작을 경우
 	            if(moreNum >= h && lessNum <= h) {
-	            	answer = h;
-	                // 현재 h보다 작은 수들은 모두 제거한다. ( 최댓값을 구하기 때문)
-	                for(int k=0; k<tmpArray.size(); k++) {
-	                    if(tmpArray.get(k) <= h)
-	                        tmpArray.remove(k);
-	                }
+	                answer = h;
+	                break;
 	            }
-	                
 	        }
-	        
+	            
 	        System.out.println(answer);
 		}
 		
