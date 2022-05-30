@@ -3,6 +3,7 @@ package Programmers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -29,14 +30,14 @@ class Pair implements Comparable<Pair> {
 	
 	public int getOriginNum() {
 		return this.originNum;
-	}	
+	}
 }
 
 class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
 		Level2 level2 = new Level2(); 
-		level2.solution7();
+		level2.solution8();
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
 //		int [] answer2 = level1.solution1();
@@ -69,6 +70,43 @@ class Programmers {
 		}
 	}
 	public static class Level2 {
+		
+		public void solution8() {
+			String [] phone_book = {"119", "97674223", "1195524421"};
+			boolean answer = true;
+	        Arrays.sort(phone_book, new Comparator<String>() {
+	        	@Override
+				public int compare(String o1, String o2) {
+	        		if(o1.length() > o2.length())
+	        			return 1;
+	        		else if (o1.length() < o2.length())
+	        			return -1;
+	        		else
+	        			return 0;
+	        	}
+	        	
+	        });
+	        
+	        for(int i=0; i< phone_book.length; i++) {
+	            for(int j=i; j<phone_book.length; j++) {
+	                // length가 1이면 array bound 이므로 패스
+	                if(phone_book.length == 1)
+	                    break;
+	                
+	                // 같은 번호는 없으므로 길이가 같으면 패스
+	                if(phone_book[i].length() == phone_book[j].length())
+	                    continue;
+	                
+	                int prefixLength = phone_book[i].length();
+	                if(phone_book[i].equals(phone_book[j].substring(0, prefixLength))) {
+	                    answer = false;
+	                    break;
+	                }
+	            }
+	        }
+	        
+	        System.out.println(answer);
+		}
 		
 		// 완주하지 못한 선수
 		public void solution7() {
