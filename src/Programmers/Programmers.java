@@ -74,34 +74,12 @@ class Programmers {
 		public void solution8() {
 			String [] phone_book = {"119", "97674223", "1195524421"};
 			boolean answer = true;
-	        Arrays.sort(phone_book, new Comparator<String>() {
-	        	@Override
-				public int compare(String o1, String o2) {
-	        		if(o1.length() > o2.length())
-	        			return 1;
-	        		else if (o1.length() < o2.length())
-	        			return -1;
-	        		else
-	        			return 0;
-	        	}
-	        	
-	        });
+	        Arrays.sort(phone_book);
 	        
-	        for(int i=0; i< phone_book.length; i++) {
-	            for(int j=i; j<phone_book.length; j++) {
-	                // length가 1이면 array bound 이므로 패스
-	                if(phone_book.length == 1)
-	                    break;
-	                
-	                // 같은 번호는 없으므로 길이가 같으면 패스
-	                if(phone_book[i].length() == phone_book[j].length())
-	                    continue;
-	                
-	                int prefixLength = phone_book[i].length();
-	                if(phone_book[i].equals(phone_book[j].substring(0, prefixLength))) {
-	                    answer = false;
-	                    break;
-	                }
+	        for(int i=0; i<phone_book.length-1; i++) {
+	            if(phone_book[i+1].startsWith(phone_book[i])){
+	                answer = false;
+	                break;
 	            }
 	        }
 	        
