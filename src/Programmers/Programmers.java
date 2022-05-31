@@ -37,7 +37,7 @@ class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
 		Level2 level2 = new Level2(); 
-		level2.solution8();
+		level2.solution9();
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
 //		int [] answer2 = level1.solution1();
@@ -71,6 +71,48 @@ class Programmers {
 	}
 	public static class Level2 {
 		
+		public void solution9() {
+			String[][] clothes = {{"yellowhat", "headgear"}, {"bluesunglasses", "eyewear"}, {"green_turban", "headgear"}};
+	        int answer = 0;
+	        HashMap<String, Integer> map = new HashMap<>();
+	        int typeNum = 0; // 종류(type) 개수
+	        
+	        for(String[] elements: clothes) {
+	            String name = elements[0];
+	            String type = elements[1];
+	            if(map.containsKey(type)) {
+	                int num = map.get(type);
+	                num++;
+	                map.put(type, num);
+	            }
+	            else {
+	                map.put(type, 1);
+	                typeNum++;
+	            }
+	        }
+	        
+	        for(String type : map.keySet()) {
+	            int num = map.get(type);
+	            answer += collaboration(typeNum, num);
+	        }
+	        
+	        System.out.println(answer);
+	    }
+	    
+	    public int collaboration(int n, int c) {
+	        int mul = 1;
+	        // nC3 = n! / 3! = n * n-1 * ~ 3
+	        for(int i=n; i >= 1; i--)
+	            mul *= i;
+	        
+	        int div = 1;
+	        for(int i=c; i >= 1; i--)
+	            div *= i;
+	        
+	        return mul / div;
+	    }
+		
+		// 전화번호 목록
 		public void solution8() {
 			String [] phone_book = {"119", "97674223", "1195524421"};
 			boolean answer = true;
