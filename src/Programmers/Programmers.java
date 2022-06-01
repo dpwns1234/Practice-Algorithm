@@ -70,69 +70,80 @@ class Programmers {
 		}
 	}
 	public static class Level2 {
-
+		class GenreInf {
+			public Integer sum = 0;
+			public int firstPlay = -1;
+			public int firstNum = -1;
+			public int secondPlay = -1;
+			public int secondNum = -1;
+			public GenreInf() {
+				
+			}
+		}
 		public void solution10() {
 			String [] genres = {"classic", "pop", "classic", "classic", "pop"};
 			int [] plays = {500, 600, 150, 800, 2500};
 	        ArrayList<Integer> answer = new ArrayList<>();
-	        HashMap<String, Integer> map1 = new HashMap<>();
-	        HashMap<String, Integer> map2 = new HashMap<>();
-	        HashMap<Integer, Integer> mapNum1 = new HashMap<>();
-	        HashMap<Integer, Integer> mapNum2 = new HashMap<>();
-
+	        HashMap<String, GenreInf> map = new HashMap<>();
+	        
 	        for(int i=0; i<genres.length; i++) {
 	            String genre = genres[i];
 	            int play = plays[i];
 	            // 새로운 장르 곡이라면
-	            if(!map1.containsKey(genre)) {
-	                map1.put(genre, play);
-	                mapNum1.put(play, i);
+	            if(!map.containsKey(genre)) {
+	            	GenreInf inf = new GenreInf();
+	            	inf.sum += play;
+	            	inf.firstPlay = play;
+	            	inf.firstNum = i;
+	                map.put(genre, inf);
 	            }
 	            else {
-	            	int map1Play = map1.get(genre);
-	                // 새로 들어온게 더 크다면 1순위를 바꾼다.
-	                if(play > map1Play) {
-	                	// map1의 내용을 map2로 옮겨준다.
-	                    mapNum2.put(map1Play, mapNum1.get(map1Play));
-	                    map2.put(genre, map1Play);
+	            	GenreInf inf = map.get(genre);
+                	inf.sum += play;
+                	
+	                // 새로 들어온 play 수와 firstPlay의 수를 비교한다.
+	                if(play > inf.firstPlay) {
+	                	// first의 내용을 second로 옮겨준다.
+	                	inf.secondPlay = inf.firstPlay;
+	                	inf.secondNum = inf.firstNum;
 	                    
-	                    // map1에 새로 들어온 값을 넣어준다.
-	                    map1.put(genre, play);
-	                    mapNum1.put(play, i);
+	                    // first에 새로 들어온 값을 넣어준다.
+	                	inf.firstPlay = play;
+	                	inf.firstNum = i;
+	                	
+	                	map.put(genre, inf);
 	                }
 	                // 1순위보다 작고 + 2순위가 있다면
-	                else if (map2.containsKey(genre)){
+	                else if (inf.secondPlay != -1){
 	                    // 새로 들어온게 2순위보다 크다면
-	                    if (play > map2.get(genre)) {
-	                        map2.put(genre, play);
-	                        mapNum2.put(play, i);
+	                    if (play > inf.secondPlay) {
+	                    	inf.secondPlay = play;
+	                    	inf.secondNum = i;
 	                    }
 	                    // 작으면 추가하지 않고 넘어가기.
 	                    
 	                }
 	                // 1순위보다 작은데 2순위가 없다면
 	                else {
-	                    map2.put(genre, play);
-	                    mapNum2.put(play, i);
+	                	inf.secondPlay = play;
+	                	inf.secondNum = i;
 	                }
 	            }
 	            
 	        }
-	        
-	        
-	        ArrayList<String> keyListOrdered = new ArrayList<>(map1.keySet());
+	      
+	        ArrayList<String> genreListOrdered = new ArrayList<>(map.keySet());
 	        // 내림차순으로 정렬
-	        Collections.sort(keyListOrdered, (value1, value2) ->
-	                        map1.get(value2).compareTo(map1.get(value1)));
+	        Collections.sort(genreListOrdered, (value1, value2) ->
+	                        map.get(value2).sum.compareTo(map.get(value1).sum));
 	        
-	        for(String genre : keyListOrdered) {
-	        	int map1Play = map1.get(genre);
-	        	int map2Play = map2.get(genre);
-	            int num1 = mapNum1.get(map1Play);
-	            int num2 = mapNum2.get(map2Play);
-	            // array 추가 방법 알아보기
+	        for(String genre : genreListOrdered) {
+	            int num1 = map.get(genre).firstNum;
 	            answer.add(num1);
-	            answer.add(num2);
+	            int num2 = map.get(genre).secondNum;
+	            if(num2 != -1) {
+		            answer.add(num2);
+	            }
 	        }
 	        int [] answer2 = new int [answer.size()];
 	        // convert
