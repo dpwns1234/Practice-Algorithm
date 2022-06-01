@@ -37,7 +37,7 @@ class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
 		Level2 level2 = new Level2(); 
-		level2.solution9();
+		level2.solution10();
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
 //		int [] answer2 = level1.solution1();
@@ -70,6 +70,78 @@ class Programmers {
 		}
 	}
 	public static class Level2 {
+
+		public void solution10() {
+			String [] genres = {"classic", "pop", "classic", "classic", "pop"};
+			int [] plays = {500, 600, 150, 800, 2500};
+	        ArrayList<Integer> answer = new ArrayList<>();
+	        HashMap<String, Integer> map1 = new HashMap<>();
+	        HashMap<String, Integer> map2 = new HashMap<>();
+	        HashMap<Integer, Integer> mapNum1 = new HashMap<>();
+	        HashMap<Integer, Integer> mapNum2 = new HashMap<>();
+
+	        for(int i=0; i<genres.length; i++) {
+	            String genre = genres[i];
+	            int play = plays[i];
+	            // 새로운 장르 곡이라면
+	            if(!map1.containsKey(genre)) {
+	                map1.put(genre, play);
+	                mapNum1.put(play, i);
+	            }
+	            else {
+	            	int map1Play = map1.get(genre);
+	                // 새로 들어온게 더 크다면 1순위를 바꾼다.
+	                if(play > map1Play) {
+	                	// map1의 내용을 map2로 옮겨준다.
+	                    mapNum2.put(map1Play, mapNum1.get(map1Play));
+	                    map2.put(genre, map1Play);
+	                    
+	                    // map1에 새로 들어온 값을 넣어준다.
+	                    map1.put(genre, play);
+	                    mapNum1.put(play, i);
+	                }
+	                // 1순위보다 작고 + 2순위가 있다면
+	                else if (map2.containsKey(genre)){
+	                    // 새로 들어온게 2순위보다 크다면
+	                    if (play > map2.get(genre)) {
+	                        map2.put(genre, play);
+	                        mapNum2.put(play, i);
+	                    }
+	                    // 작으면 추가하지 않고 넘어가기.
+	                    
+	                }
+	                // 1순위보다 작은데 2순위가 없다면
+	                else {
+	                    map2.put(genre, play);
+	                    mapNum2.put(play, i);
+	                }
+	            }
+	            
+	        }
+	        
+	        
+	        ArrayList<String> keyListOrdered = new ArrayList<>(map1.keySet());
+	        // 내림차순으로 정렬
+	        Collections.sort(keyListOrdered, (value1, value2) ->
+	                        map1.get(value2).compareTo(map1.get(value1)));
+	        
+	        for(String genre : keyListOrdered) {
+	        	int map1Play = map1.get(genre);
+	        	int map2Play = map2.get(genre);
+	            int num1 = mapNum1.get(map1Play);
+	            int num2 = mapNum2.get(map2Play);
+	            // array 추가 방법 알아보기
+	            answer.add(num1);
+	            answer.add(num2);
+	        }
+	        int [] answer2 = new int [answer.size()];
+	        // convert
+	        for(int i=0; i<answer.size(); i++) {
+
+		        System.out.print(answer.get(i) + " ");
+	            answer2[i] = answer.get(i);
+	        }
+		}
 		
 		public void solution9() {
 			String[][] clothes = {{"yellowhat", "headgear"}, {"bluesunglasses", "eyewear"}, {"green_turban", "headgear"}};
