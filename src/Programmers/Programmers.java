@@ -37,7 +37,10 @@ class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
 		Level2 level2 = new Level2(); 
-		level2.solution10();
+		//level2.solution10();
+		
+		Level1 level1 = new Level1();
+		level1.solution2();
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
 //		int [] answer2 = level1.solution1();
@@ -46,6 +49,54 @@ class Programmers {
 	}
 
 	public static class Level1 {
+		
+		// 모의고사
+		public void solution2() {
+			int[] answers = {1,2,3,4,5};
+	        int[] answer = {};
+	        
+	        // pattern
+	        int [][] supoja = {{1, 2, 3, 4, 5}, {2,1,2,3,2,4,2,5}, {3,3,1,1,2,2,4,4,5,5}};
+	        
+	        int[] answersNum = new int [3];
+	        int maxNum = 0;
+	        
+	        for(int i=0; i<supoja.length; i++) {
+	        	int num = 0;
+	        	int supojaIndex = 0;
+	            int answerIndex = 0;
+	            // 각 최소공배수 만큼 반복
+	            for(int j=0; j<answers.length; j++) {
+	                // index가 length를 넘지 않도록
+	                if(supoja[i].length == supojaIndex)
+	                    supojaIndex = 0;
+	                if(answers.length == answerIndex)
+	                    answerIndex = 0;
+	                
+	                if(supoja[i][supojaIndex++] == answers[answerIndex++])
+	                    num++;
+	            }
+
+	            answersNum[i] = num;
+	            maxNum = Math.max(maxNum, num);
+	            
+	        }        
+	        ArrayList<Integer> answer2 = new ArrayList<Integer>();
+	        for(int i=0; i<answersNum.length; i++) {
+	            if(maxNum == answersNum[i])
+	                answer2.add(i+1);
+	        }
+	        
+	        answer = new int [answer2.size()];
+	        for(int i=0; i<answer2.size(); i++) {
+	            answer[i] = answer2.get(i);
+	        }
+	        
+	        for(int i=0; i<answer.length; i++) {
+		        System.out.println(answer[i]);
+	        }
+		}
+		
 		// K번째 수
 		public int[] solution1() {
 			int[] array = {1, 5, 2, 6, 3, 7, 4};
