@@ -36,11 +36,11 @@ class Pair implements Comparable<Pair> {
 class Programmers {
 	public static void main(String[] args) {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
-		Level2 level2 = new Level2(); 
-		//level2.solution10();
-		
 		Level1 level1 = new Level1();
-		level1.solution2();
+		Level2 level2 = new Level2(); 
+		//level1.solution2();
+		level2.solution11();
+		
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
 //		int [] answer2 = level1.solution1();
@@ -131,6 +131,43 @@ class Programmers {
 				
 			}
 		}
+		HashMap<Integer, Boolean> map = new HashMap<>();
+		// 소수 찾기
+		public void solution11() {
+			ArrayList<Integer> numbersList = new ArrayList<>();
+			String numbers = "011";
+			int answer = 0;
+			
+			// String -> ArrayList<Integer>
+			int num = Integer.parseInt(numbers);
+			while(num != 0) {
+				numbersList.add(num%10);
+				num /= 10;
+			}
+			
+			recursive(numbersList, 0, numbersList.size());
+			
+			for(Integer value : map.keySet()) {
+				System.out.println(value);
+			}
+		}
+		
+		public void recursive(ArrayList<Integer> array, int value, int digits) {
+			if(digits == 0) {
+				map.put(value, true);
+				return;
+			}
+			else {
+				for(int i=0; i<array.size(); i++) {
+					ArrayList<Integer> tmp = new ArrayList<>(array);
+					value = value + array.get(i);
+					value *= 10;
+					digits -= 1;
+					recursive(tmp, value, digits);
+				}
+			}
+		}
+		
 		public void solution10() {
 			String [] genres = {"classic", "pop", "classic", "classic", "pop"};
 			int [] plays = {500, 600, 150, 800, 2500};
