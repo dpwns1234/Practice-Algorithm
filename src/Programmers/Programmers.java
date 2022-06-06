@@ -131,11 +131,12 @@ class Programmers {
 				
 			}
 		}
+		// 중복을 피하기 위해, 011 등 앞의 0이 붙은 것을 피하기 위해 map을 사용한다.
 		HashMap<Integer, Boolean> map = new HashMap<>();
 		// 소수 찾기
 		public void solution11() {
 			ArrayList<Integer> numbersList = new ArrayList<>();
-			String numbers = "011";
+			String numbers = "00000211";
 			int answer = 0;
 			
 			// String -> ArrayList<Integer>
@@ -144,28 +145,62 @@ class Programmers {
 				numbersList.add(num%10);
 				num /= 10;
 			}
-			
-			recursive(numbersList, 0, numbersList.size());
-			
-			for(Integer value : map.keySet()) {
-				System.out.println(value);
+			// 숫자 앞에 0 이 붙여져 있다면 그것들을 모두 numbersList에 더해준다.
+			for(int i=0; i<numbers.length(); i++) {
+				if(numbers.charAt(i) == '0') {
+					numbersList.add(0);
+				}
+				else
+					break;
 			}
+			
+			
+			for(int i=1; i<=numbersList.size(); i++) {
+				recursive(numbersList, 0, i);
+			}
+			numbersList.clear();
+			// map -> ArrayList<Integer>
+			for(Integer value : map.keySet())
+				numbersList.add(value);
+			
+			// 이제 소수 찾기
+			for(int value : numbersList) {
+				if(isPrimeNum(value)) 
+					answer++;
+			}
+			
+			System.out.print(isPrimeNum(1));
+			
 		}
 		
+		// digits = 자리수. 예를들어 digits = 4이면 4자리 수의 모든 조합을 얻는다.
 		public void recursive(ArrayList<Integer> array, int value, int digits) {
-			if(digits == 0) {
+			if(digits == (int) (Math.log10(value)) + 1) {
 				map.put(value, true);
 				return;
 			}
 			else {
 				for(int i=0; i<array.size(); i++) {
 					ArrayList<Integer> tmp = new ArrayList<>(array);
-					value = value + array.get(i);
+					// 1234 만들고 다시 123으로 돌아왔을 때 1243을 만들기 위해
+					if(i != 0)
+						value = value / 10;
 					value *= 10;
-					digits -= 1;
+					value = value + array.get(i);
+					tmp.remove(i);
 					recursive(tmp, value, digits);
 				}
 			}
+		}
+		
+		// 소수 찾기 function
+		public boolean isPrimeNum(int value) {
+			if(value < 2) return false;
+			
+			for(int i=2; i*i<=value; i++){
+	            if(value % i == 0) return false;
+	        }
+	        return true;
 		}
 		
 		public void solution10() {
