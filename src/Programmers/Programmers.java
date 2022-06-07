@@ -131,8 +131,31 @@ class Programmers {
 				
 			}
 		}
+		
+		public void solution12() {
+			int brown = 24, yellow = 24;
+	        int[] answer = new int[2];
+	        // row, col 가능 값 완전 탐색
+	        HashMap<Integer, Integer> map = new HashMap<>();
+	        // row + col = (brown + 4) / 2 
+	        int num = (brown + 4) / 2;
+	        // row가 col보다 크거나 같으므로 i <= num까지만 반복한다.
+	        for(int i=1; i <= num/2; i++) {
+	            map.put(num-i, i);
+	        }
+
+	        // (row-2)*(col-2) = 24
+	        for(int row : map.keySet()) {
+	            int col = map.get(row);
+	            if((row-2)*(col-2) == yellow) {
+	                answer[0] = row;
+	                answer[1] = col;
+	            }
+	        }
+	        
+		}
 		// 중복을 피하기 위해, 011 등 앞의 0이 붙은 것을 피하기 위해 map을 사용한다.
-		HashMap<Integer, Boolean> map = new HashMap<>();
+		HashMap<Integer, Boolean> solution11Map = new HashMap<>();
 		// 소수 찾기
 		public void solution11() {
 			ArrayList<Integer> numbersList = new ArrayList<>();
@@ -160,7 +183,7 @@ class Programmers {
 			}
 			numbersList.clear();
 			// map -> ArrayList<Integer>
-			for(Integer value : map.keySet())
+			for(Integer value : solution11Map.keySet())
 				numbersList.add(value);
 			
 			// 이제 소수 찾기
@@ -176,7 +199,7 @@ class Programmers {
 		// digits = 자리수. 예를들어 digits = 4이면 4자리 수의 모든 조합을 얻는다.
 		public void recursive(ArrayList<Integer> array, int value, int digits) {
 			if(digits == (int) (Math.log10(value)) + 1) {
-				map.put(value, true);
+				solution11Map.put(value, true);
 				return;
 			}
 			else {
