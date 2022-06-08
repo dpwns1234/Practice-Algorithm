@@ -39,7 +39,7 @@ class Programmers {
 		Level1 level1 = new Level1();
 		Level2 level2 = new Level2(); 
 		//level1.solution2();
-		level2.solution11();
+		level2.solution13();
 		
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
@@ -131,6 +131,39 @@ class Programmers {
 				
 			}
 		}
+		
+	    
+		// 타겟 넘버
+		int[] yj;
+	    int answer = 0;
+		public void solution13() {
+			int target = 4;
+	        yj = new int[] {4, 1, 2, 1};
+	        int sum = 0;
+	        for(int i=0; i<yj.length; i++) {
+	            sum += yj[i];
+	        }
+	        int goal = (sum - target) / 2;
+	        solution13Dfs(0, goal);
+	        
+	        System.out.print(answer);
+	    }
+		public void solution13Dfs(int index, int goal) {
+	        if(goal == 0) {
+	            answer++;
+	            return;
+	        }
+	        
+	        for(int i=index; i<yj.length; i++) {
+	            // goal이 0이 되게하는 수를 찾아서 전진
+	            if(goal - yj[i] < 0)
+	                continue;
+	            // goal이 0이 되는 조합을 찾아서 진입
+	            else {
+	            	solution13Dfs(i+1, goal - yj[i]);
+	            }
+	        }
+	    }
 		
 		public void solution12() {
 			int brown = 24, yellow = 24;
