@@ -39,7 +39,7 @@ class Programmers {
 		Level1 level1 = new Level1();
 		Level2 level2 = new Level2(); 
 		//level1.solution2();
-		level2.solution13();
+		level2.solution14();
 		
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
@@ -132,10 +132,45 @@ class Programmers {
 			}
 		}
 		
+		// 네트워크
+		boolean[] visited;
+        int answer = 0;
+	    public void solution14() {
+	    	int[][] computers = {{1, 1, 0}, {1, 1, 1}, {0, 1, 1}};
+	    	int n = 3;
+            visited = new boolean [n];
+            for(int i=0; i<n; i++) {
+                visited[i] = false;
+            }
+            
+            for(int i=0; i<n; i++) {
+            	if(visited[i] == false) {
+            		visited[i] = true;
+            		answer++;
+            		solution14Dfs(i, computers, n);
+            	}
+            }
+            System.out.print(answer);
+	    }
 	    
+        public void solution14Dfs(int mine, int[][] computers, int n) {
+            for(int i=0; i<n; i++) {
+                // 이미 방문했던 곳이라면 answer + 1을 하지 않고 다음 것으로 넘어간다.
+                if(visited[i])
+                    continue;
+                
+                // 네트워크가 연결되어 있으면서 + 방문하지 않은 컴퓨터라면 into
+                if(computers[mine][i] == 1 && visited[i] == false) {
+                    visited[i] = true;
+                    solution14Dfs(i, computers, n);
+                }
+                // 하나의 네트워크가 끝났으면 answer + 1
+                
+            }
+        }
+        
 		// 타겟 넘버
 		int[] yj;
-	    int answer = 0;
 		public void solution13() {
 			int target = 4;
 	        yj = new int[] {4, 1, 2, 1};
@@ -165,6 +200,7 @@ class Programmers {
 	        }
 	    }
 		
+		// 카펫
 		public void solution12() {
 			int brown = 24, yellow = 24;
 	        int[] answer = new int[2];
