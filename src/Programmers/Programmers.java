@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -38,9 +40,11 @@ class Programmers {
 		String[] record = {"Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"};
 		Level1 level1 = new Level1();
 		Level2 level2 = new Level2(); 
+		Level3 level3 = new Level3();
 		//level1.solution2();
-		level2.solution14();
-		
+		//level2.solution14();
+		int a = level3.solution1();
+		System.out.println(a);
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
 //		int [] answer2 = level1.solution1();
@@ -803,6 +807,71 @@ class Programmers {
 			return answer;
 		}
 	
+	}
+	public static class Level3 {
+		
+		// 단어 변환
+		// Exception in thread "main" java.lang.StackOverflowError at Solution.bfs(Unknown Source) -> 여기선 되는데 웹에선 옆의 오류뜸
+		public int solution1() {
+			String begin = "hit";
+			String target = "cog";
+			String[] words = {"hot", "dot", "dog", "lot", "log", "cog"};
+	        int answer = 0;
+	        Queue<String> q = new LinkedList<>();
+	        q.offer(begin);
+	        
+	        // visited 초기화
+	        boolean[] visited = new boolean [words.length];
+	        for(boolean e : visited) {
+	            e = false;
+	        }
+	        
+	        // target이 words에 있을 경우만 bfs 실행
+	        for(String word : words) {
+	            if(target.equals(word))
+	                return bfs(q, words, target, answer++, visited);
+	        }
+	        
+	        return 0;
+	    }
+	    
+	    public int bfs(Queue<String> q, String[] words, String target, 
+	                   int answer, boolean[] visited) {
+	        boolean isFind = false;
+	        // level(높이)을 통해 answer값을 알아야 하므로 size를 미리 구한다.
+	        int size = q.size();
+	        for(int i=0; i<size; i++) {
+	            String qWord = q.poll();
+
+	            for(int j=0; j<words.length; j++) {
+	                // 하나만 다르면 + 방문하지 않았으면
+	                if(canChange(qWord, words[j]) && visited[j] == false) {
+	                    q.offer(words[j]);
+	                    visited[j] = true;
+	                }
+	                
+	                // 만약 target과 같다면 바로 리턴
+	                if(qWord == target) {
+	                    return 0;
+	                }
+	            }
+	        }
+	        
+	        return 1 + bfs(q, words, target, answer++, visited);
+	    }
+	    
+	    public boolean canChange(String word1, String word2) {
+	        int cnt = 0;
+	        for(int i=0; i<word1.length(); i++) {
+	            if(word1.charAt(i) == word2.charAt(i))
+	                cnt++;
+	        }
+	        
+	        if(word1.length() - 1 == cnt)
+	            return true;
+	        else 
+	            return false;
+	    }
 	}
 }
 
