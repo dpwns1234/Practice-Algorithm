@@ -813,60 +813,65 @@ class Programmers {
 		// 단어 변환
 		// Exception in thread "main" java.lang.StackOverflowError at Solution.bfs(Unknown Source) -> 여기선 되는데 웹에선 옆의 오류뜸
 		public int solution1() {
-			String begin = "hit";
-			String target = "cog";
-			String[] words = {"hot", "dot", "dog", "lot", "log", "cog"};
-	        int answer = 0;
-	        Queue<String> q = new LinkedList<>();
+			String begin = "hot";
+			String target = "hit";
+			String[] words = {"hit", "hot", "lot"};
+			Queue<String> q = new LinkedList<>();
 	        q.offer(begin);
-	        
+
 	        // visited 초기화
 	        boolean[] visited = new boolean [words.length];
 	        for(boolean e : visited) {
 	            e = false;
 	        }
-	        
+
 	        // target이 words에 있을 경우만 bfs 실행
 	        for(String word : words) {
 	            if(target.equals(word))
-	                return bfs(q, words, target, answer++, visited);
+	                return bfs(q, words, target, visited);
 	        }
-	        
+
 	        return 0;
 	    }
-	    
-	    public int bfs(Queue<String> q, String[] words, String target, 
-	                   int answer, boolean[] visited) {
+
+	    public int bfs(Queue<String> q, String[] words, String target, boolean[] visited) {
+	        int answer = -1; // begin은 answer에 영향 x이므로
 	        boolean isFind = false;
 	        // level(높이)을 통해 answer값을 알아야 하므로 size를 미리 구한다.
-	        int size = q.size();
-	        for(int i=0; i<size; i++) {
-	            String qWord = q.poll();
-
-	            for(int j=0; j<words.length; j++) {
-	                // 하나만 다르면 + 방문하지 않았으면
-	                if(canChange(qWord, words[j]) && visited[j] == false) {
-	                    q.offer(words[j]);
-	                    visited[j] = true;
-	                }
-	                
+	        while(!q.isEmpty()) {
+	            if(isFind)
+	                break;
+	            else
+	                answer++;
+	            
+	            int size = q.size();
+	            for(int i=0; i<size; i++) {
+	                String qWord = q.poll();
 	                // 만약 target과 같다면 바로 리턴
 	                if(qWord == target) {
-	                    return 0;
+	                    isFind = true;
+	                    break;
+	                }
+	                for(int j=0; j<words.length; j++) {
+	                    // 하나만 다르면 + 방문하지 않았으면
+	                    if(canChange(qWord, words[j]) && visited[j] == false) {
+	                        q.offer(words[j]);
+	                        visited[j] = true;
+	                    }
 	                }
 	            }
 	        }
-	        
-	        return 1 + bfs(q, words, target, answer++, visited);
+
+	        return answer;
 	    }
-	    
+
 	    public boolean canChange(String word1, String word2) {
 	        int cnt = 0;
 	        for(int i=0; i<word1.length(); i++) {
 	            if(word1.charAt(i) == word2.charAt(i))
 	                cnt++;
 	        }
-	        
+
 	        if(word1.length() - 1 == cnt)
 	            return true;
 	        else 
