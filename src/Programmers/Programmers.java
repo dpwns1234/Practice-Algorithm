@@ -41,10 +41,10 @@ class Programmers {
 		Level1 level1 = new Level1();
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
-		//level1.solution2();
+		level1.solution3();
 		//level2.solution14();
-		int a = level3.solution1();
-		System.out.println(a);
+		//int a = level3.solution1();
+		//System.out.println(a);
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
 //		int [] answer2 = level1.solution1();
@@ -53,6 +53,38 @@ class Programmers {
 	}
 
 	public static class Level1 {
+		
+		// 소수 만들기
+		public void solution3() {
+			int answer = 0;
+			int[] nums = {1,2,7,6,4};
+	        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+	        
+	        
+	        for(int i=0; i<nums.length-2; i++) {
+	            for(int j=i+1; j<nums.length-1; j++) {
+	                for(int k=j+1; k<nums.length; k++) {
+	                    int sum = nums[i] + nums[j] + nums[k];
+	                    if(isPrime(sum))
+	                        answer++;
+	                    
+	                }
+	            }
+	        }
+
+	        System.out.println(answer);
+	    }
+	    
+	    public boolean isPrime(int num) {
+	        if(num == 0 || num == 1)
+	            return false;
+	        for(int i=2; i<=Math.sqrt(num); i++) {
+	            if(num % i == 0)
+	                return false;
+	        }
+	        
+	        return true;
+	    }
 		
 		// 모의고사
 		public void solution2() {
