@@ -41,9 +41,9 @@ class Programmers {
 		Level1 level1 = new Level1();
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
-		level1.solution3();
+		//level1.solution3();
 		//level2.solution14();
-		//int a = level3.solution1();
+		level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
@@ -841,6 +841,79 @@ class Programmers {
 	
 	}
 	public static class Level3 {
+		
+		class MyPair implements Comparable<MyPair>{
+			String next;
+			int index;
+			
+			public MyPair(String next, int index) {
+				this.next = next;
+				this.index = index;
+			}
+			
+			@Override
+			public int compareTo(MyPair myPair) {
+				if(this.next.compareTo(myPair.next) > 0)
+					return 1;
+				else if (this.next.compareTo(myPair.next) < 0) 
+					return -1;
+				else
+					return 0;
+			}
+		}
+		String[] answer2 = {};
+		boolean success = false;
+		// 여행경로
+		public void solution2() {
+			String[][] tickets = {{"ICN", "SFO"}, {"ICN", "ATL"}, {"SFO", "ATL"}, {"ATL", "ICN"}, {"ATL","SFO"}};
+			answer2 = new String [tickets.length + 1];
+	        // visited 초기화
+	        boolean [] visited = new boolean [tickets.length];
+	        for(int i=0; i<visited.length; i++)
+	            visited[i] = false;
+	        
+	        answer2[0] = "ICN";
+	        dfs2(tickets, "ICN", visited, 0);
+	        for(int i=0; i<answer2.length; i++) {
+		        System.out.println(answer2[i]);
+	        }
+		}
+		
+		public void dfs2(String[][] tickets, String from, boolean[] visited, int cnt) {
+	        if(cnt == tickets.length) {
+	            answer2[cnt] = from;
+	            success = true;
+	            return;
+	        }
+	        
+	        ArrayList<MyPair> nextList = new ArrayList<>();
+	        // 출발역을 모두 찾는다. -> 알파벳순으로 정렬한다. -> 순서대로 dfs로 넣는다.
+	        for(int i=0; i<tickets.length; i++) {
+	            if(tickets[i][0].equals(from) && visited[i] == false) {
+	                nextList.add(new MyPair(tickets[i][1], i));
+	                if(success)
+	                    break;
+	            }
+	        }
+	        
+	        // 알파벳 순으로 정렬한다.
+	        Collections.sort(nextList);
+	        
+	        for(int i=0; i<nextList.size(); i++) {
+	        	String next = nextList.get(i).next;
+                visited[nextList.get(i).index] = true;
+	        	dfs2(tickets, next, visited, ++cnt);
+	        	
+	        	// 다시 복귀
+	        	cnt--;
+	        	visited[nextList.get(i).index] = false;
+	        	// 재귀 후 돌아왔는데 성공했으면 그대로 계속 answer에 넣어준다.
+	        	if(success) {
+	        		answer2[cnt] = from;
+	        		break;
+	        	}
+	        }
+	    }
 		
 		// 단어 변환
 		// Exception in thread "main" java.lang.StackOverflowError at Solution.bfs(Unknown Source) -> 여기선 되는데 웹에선 옆의 오류뜸
