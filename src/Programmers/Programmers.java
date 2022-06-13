@@ -42,8 +42,8 @@ class Programmers {
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
 		//level1.solution3();
-		//level2.solution14();
-		level3.solution2();
+		level2.solution15();
+		//level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
 //		Level1 level1 = new Level1();
@@ -166,6 +166,48 @@ class Programmers {
 			public GenreInf() {
 				
 			}
+		}
+		
+		// 기능개발
+		public void solution15() {
+			int[] answer15;
+			int[] progresses = {95, 90, 99, 99, 80, 99};
+			int[] speeds = {1, 1, 1, 1, 1, 1};
+	        ArrayList<Integer> answerList = new ArrayList<>();
+	        // 각 프로그램이 며칠이 걸리는지 계산
+	        Queue<Integer> q = new LinkedList<Integer>();
+	        for(int i=0; i<progresses.length; i++) {
+                int day = (100-progresses[i]) / speeds[i];
+                if((100-progresses[i]) % speeds[i] > 0)
+                    q.offer(day+1);
+                else
+                    q.offer(day);
+	            
+	        }
+	        int cnt = 1;
+	        int standard = q.poll();
+	        while(!q.isEmpty()) {
+	            if(standard >= q.peek()) {
+	                cnt++;
+	                if(q.poll() == null) {
+	                	answerList.add(cnt);
+	                	break;
+	                }
+	             
+	            }
+	            else {
+	            	answerList.add(cnt);
+	            	cnt = 1;
+	            	standard = q.poll();
+	            }
+	        }
+	        answerList.add(cnt);
+	        
+	        answer15 = new int [answerList.size()];
+	        for(int i=0; i<answerList.size(); i++) {
+	        	answer15[i] = answerList.get(i);
+	            System.out.println(answer15[i]);
+	        }
 		}
 		
 		// 네트워크
