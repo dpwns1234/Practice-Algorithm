@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;
@@ -42,7 +43,7 @@ class Programmers {
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
 		//level1.solution3();
-		level2.solution15();
+		level2.solution16();
 		//level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
@@ -71,6 +72,8 @@ class Programmers {
 	                }
 	            }
 	        }
+	        
+	        
 
 	        System.out.println(answer);
 	    }
@@ -166,6 +169,52 @@ class Programmers {
 			public GenreInf() {
 				
 			}
+		}
+		
+		// 프린터
+		public void solution16() {
+			int[] priorities = {1, 1, 9, 1, 1, 1};
+			int location = 0;
+			int answer16 = 0;
+	        Queue<Integer> q = new LinkedList<Integer>();
+	        for(int i=0; i<priorities.length; i++) {
+	            q.offer(priorities[i]);
+	        }
+	        
+	        
+	        while(true) {
+	            boolean goBack = false;
+	            int n = q.poll();
+	            Iterator<Integer> iter = q.iterator();
+	            // 현재 작업할 우선순위가 대기목록 모두보다 높은지 확인
+	            while(iter.hasNext()) {
+	                // 만약 하나라도 작다면, 뒤로 보내고 location은 한 칸 앞으로 온다고 생각한다.
+	            	int a = iter.next();
+	                if(n < a) {
+	                    goBack = true;
+	                    q.offer(n);
+	                    location--;
+	                    break;
+	                }
+	            }
+	            
+	            // 만일 현재 작업이 가장 우선순위가 높다면 프린트한다.
+	            if(goBack == false) {
+	            	answer16++;
+	            	// 만약 현재 작업이 우리가 알고자 하는 것이라면 찾는 것을 멈춘다.
+	            	if(location == 0)
+	                    break;
+	            	else 
+	            		location--;
+	            }
+	            
+	            // 만약 우리가 원하는 작업이 우선순위에 밀린다면 맨 뒤(인덱스)로 보내준다.
+	            if(location < 0) {
+	                location = q.size() - 1;
+	            }
+	        }
+	        
+	        System.out.println(answer16);
 		}
 		
 		// 기능개발
