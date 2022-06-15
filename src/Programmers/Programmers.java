@@ -43,7 +43,7 @@ class Programmers {
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
 		//level1.solution3();
-		level2.solution16();
+		level2.solution17();
 		//level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
@@ -169,6 +169,36 @@ class Programmers {
 			public GenreInf() {
 				
 			}
+		}
+		
+		// 다리를 지나는 트럭
+		public void solution17() {
+			int[] truckWeights = {7,4,5,6};
+			int bridgeLength = 2;
+			int weight = 10;
+			int answer17 = 0;
+	        Queue<Integer> q = new LinkedList<Integer>();
+	        
+	        int currentSum = 0; // 현재 다리 위에 올라가 있는 트럭의 전체 무게
+	        for(int i=0; i<truckWeights.length; i++) {
+	            // 다리 제한 무게 초과시
+	            if(currentSum + truckWeights[i] > weight) {
+	                answer += bridgeLength;
+	                // 가장 먼저 출발한 트럭이 다리 끝까지 갈 때까지의 시간을 더해준다.
+	                int num = q.poll();
+	                currentSum -= num;
+	            }
+	            else {
+	                q.offer(truckWeights[i]); // 다리 위에 트럭이 올라갔다.
+	                currentSum += truckWeights[i];
+	                answer += 1; // 새 트럭이 다리에 진입하는 시간 +1
+	            }
+	        }
+	        
+	        // 마지막 트럭이 다리 끝까지 지날때 까지의 시간을 더해준다.
+	        answer17 += bridgeLength;
+	        
+	        System.out.println(answer17);
 		}
 		
 		// 프린터
