@@ -171,34 +171,82 @@ class Programmers {
 			}
 		}
 		
+		// 다리를 지나는 트럭 - 정답 퍼옴 
+		// 출처 : https://hyojun.tistory.com/entry/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EB%8B%A4%EB%A6%AC%EB%A5%BC-%EC%A7%80%EB%82%98%EB%8A%94-%ED%8A%B8%EB%9F%AD-Java
+		public void solution18() {
+			int[] truckWeights = {2, 2, 2, 2, 1, 1, 1, 1, 1};
+			int bridgeLength = 5;
+			int weight = 5;
+			int answer18 = 0;
+	        Queue<Integer> q = new LinkedList<Integer>();
+
+	        int currentSum = 0; // 현재 다리 위에 올라가 있는 트럭의 전체 무게
+	        for(int t : truckWeights) {
+
+	            while(true) {
+	                //큐가 비어있다면 다음 트럭 삽입
+	                if(q.isEmpty()) {
+	                    q.offer(t);
+	                    currentSum += t;
+	                    answer18++;
+	                    break;
+	                }
+	                //큐의 사이즈와 다리의 길이가 같다면 큐에서 큐에서 처음 값을 빼고 최대 무게 -
+	                else if(q.size() == bridgeLength) {
+	                    currentSum -= q.poll();
+	                }
+	                //큐가 비어있지 않을 때
+	                else {
+	                    //다음 트럭이 최대 무게 초과
+	                    if(currentSum + t > weight) {
+	                        q.offer(0);
+	                        answer18++;
+	                    }
+	                    //다음 트럭이 최대 무게 이내
+	                    else {
+	                        q.offer(t);
+	                        currentSum += t;
+	                        answer18++;
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+
+	        //걸린 시간 + 마지막 트럭의 통과시간(다리의 길이)
+	        System.out.println( answer18 + bridgeLength);
+		}
 		// 다리를 지나는 트럭
 		public void solution17() {
-			int[] truckWeights = {7,4,5,6};
-			int bridgeLength = 2;
-			int weight = 10;
+			int[] truckWeights = {2, 2, 2, 2, 1, 1, 1, 1, 1};
+			int bridgeLength = 5;
+			int weight = 5;
 			int answer17 = 0;
 	        Queue<Integer> q = new LinkedList<Integer>();
 	        
 	        int currentSum = 0; // 현재 다리 위에 올라가 있는 트럭의 전체 무게
+	        boolean many = false;
 	        for(int i=0; i<truckWeights.length; i++) {
 	            // 다리 제한 무게 초과시
 	            if(currentSum + truckWeights[i] > weight) {
-	                answer += bridgeLength;
 	                // 가장 먼저 출발한 트럭이 다리 끝까지 갈 때까지의 시간을 더해준다.
 	                int num = q.poll();
 	                currentSum -= num;
+	                i--;
 	            }
 	            else {
 	                q.offer(truckWeights[i]); // 다리 위에 트럭이 올라갔다.
 	                currentSum += truckWeights[i];
-	                answer += 1; // 새 트럭이 다리에 진입하는 시간 +1
+	                if(q.size() > 1) { // 2대 이상의 차가 들어왔을 때
+	                	answer17++;
+	                }
+	                else {
+	                	answer17 += bridgeLength;
+	                }
 	            }
 	        }
 	        
-	        // 마지막 트럭이 다리 끝까지 지날때 까지의 시간을 더해준다.
-	        answer17 += bridgeLength;
-	        
-	        System.out.println(answer17);
+	        System.out.println(answer17 + 1);
 		}
 		
 		// 프린터
