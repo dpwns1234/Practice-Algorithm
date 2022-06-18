@@ -43,7 +43,7 @@ class Programmers {
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
 		//level1.solution3();
-		level2.solution17();
+		level2.solution19();
 		//level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
@@ -164,44 +164,25 @@ class Programmers {
 				
 			}
 		}
-		
-		
 		// 주식가격
 		// 근데 생각해보니까 list 안에 list를 담으면 주가 가격을 담을 곳이 없네?
 		// -> 새로 클래스 만들어야 될까?? 매개변수 하나는 주식가격, 하나는 indexList로. 괜찮은데?
+		// -> ArrayList<Stock> 로
 		public void solution19() {
 			int[] prices = {1, 2, 3, 2, 3};
 			int[] answer19 = new int [prices.length];
-			ArrayList<ArrayList<Integer>> yj = new ArrayList<ArrayList<Integer>>();
-	        // 같은 가격인 주가들의 index들을 모아둔 yj list
-	        
-	        for(int i=0; i<prices.length; i++) {
-	            // 주가 가격이 같다면
-	            if(prices[i] == prices[i+1]) {
-	                // 이미 해당 가격의 list 있다면
-	                if() {
-	                    
-	                }
-	                // 없다면 새로 list 만들어서 add
-	                else {
-	                    
-	                }
-	            }
-	            else {
-	                
-	            }
-	        }
-	        
-	        for(int i=0; i<prices.length; i++) {
-	            // 시간에 따른 주가 변동을 진행시키면서
-	            // 주가가 변동되지 않는다면(기준보다 작거나 같다면) 해당 인덱스를 모두 +1해준다.
-	            // 모든 index를 비교하는 것이 아닌, 공통된 가격만 비교하는 것이므로
-	            // 속도가 빨라지지 않을까 예상 중.
-	            for(int j=0; j<yj.size(); j++) {
-	                if(yj)
+
+	        for (int i = 0; i < prices.length; i++) {
+	            for (int j = i + 1; j < prices.length; j++) {
+	            	answer19[i]++;
+	                if (prices[i] > prices[j]) 
+	                    break;
 	            }
 	        }
 			
+	        for(int a : answer19) {
+	        	System.out.print(a + " ");
+	        }
 		}
 		
 		// 다리를 지나는 트럭 - 정답 퍼옴 
