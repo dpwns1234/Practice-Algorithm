@@ -43,7 +43,7 @@ class Programmers {
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
 		//level1.solution3();
-		level2.solution19();
+		level2.solution20();
 		//level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
@@ -164,10 +164,50 @@ class Programmers {
 				
 			}
 		}
+		
+		// 더 맵게
+		public void solution20() {
+			int[] scoville = {1, 2, 3, 9, 10, 12};
+			int K = 7;
+			int answer20 = 0;
+	        
+	        Arrays.sort(scoville);
+	        // 앞에 3개만 비교 (안되면 오름차순 정렬 후 다시 시도)
+	        for(int i=0; i<scoville.length; i++) {
+	            // 비교 원소가 3개 미만일 경우 (= 원소가 2개인 경우) 수기로 작성
+	            if(scoville.length - i < 3) {
+	                int scovilleNum = scoville[i] + (scoville[i+1] * 2);
+	                if(scovilleNum >= K)
+	                	answer20++;
+	                else
+	                	answer20 = -1;
+	                
+	                break;
+	            }
+	            
+	            int[] min = getMinArray(scoville, i);
+	            int scovilleNum = min[0] + (min[1] * 2);
+	            scoville[i+1] = scovilleNum;
+	            answer20++;
+	            
+	            // 새로 섞은 음식과 오리진 음식에서 제일 덜 매운 음식을 K와 비교한다.
+	            if(scoville[i+1] >= K && scoville[i+2] >= K)
+	                break;
+	        }
+	        System.out.println(answer20);
+		}
+	    public int[] getMinArray(int[] scoville, int start) {
+	        int[] min = new int[2];
+	        int num = Math.min(scoville[start], scoville[start+1]);
+	        min[0] = Math.min(num, scoville[start+2]);
+	        
+	        num = Math.max(scoville[start], scoville[start+1]);
+	        min[1] = Math.min(num, scoville[start+2]);
+	        
+	        return min;
+	    }
+		
 		// 주식가격
-		// 근데 생각해보니까 list 안에 list를 담으면 주가 가격을 담을 곳이 없네?
-		// -> 새로 클래스 만들어야 될까?? 매개변수 하나는 주식가격, 하나는 indexList로. 괜찮은데?
-		// -> ArrayList<Stock> 로
 		public void solution19() {
 			int[] prices = {1, 2, 3, 2, 3};
 			int[] answer19 = new int [prices.length];
