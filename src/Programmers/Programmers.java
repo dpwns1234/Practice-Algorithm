@@ -44,8 +44,8 @@ class Programmers {
 		Level1 level1 = new Level1();
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
-		level1.specialSolution();
-		//level2.solution20();
+		//level1.specialSolution();
+		level2.solution21();
 		//level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
@@ -59,6 +59,8 @@ class Programmers {
 		
 		// 네이버 부스트캠프 자가진단 함수 구현
 		public void specialSolution() {
+			String s = "22";
+			s.
 			int[] arr = {1, 2, 3, 3, 3, 3, 4, 4};
 			HashMap<Integer, Integer>map = new HashMap<Integer, Integer>();
 			int answerSize = 0;
@@ -207,6 +209,33 @@ class Programmers {
 			public GenreInf() {
 				
 			}
+		}
+		
+		// 짝지어 제거하기
+		public void solution21() {
+	        int answer21 = 0;
+	        String s = "baabaa";
+	        for(int i=0; i<s.length()-1; i++) {
+	            // 원소가 하나만 남았다면 reutrn 0;
+	            if(s.length() == 1) {
+	            	answer21 = 0;
+	                break;
+	            }
+	                
+	            if(s.charAt(i) == s.charAt(i+1)) {
+	                // 마지막 두 원소까지 같다면 return 1;
+	                if(s.length() <= 2) {
+	                	answer21 = 1;
+	                    break;
+	                }
+	                
+	                s = s.substring(0, i) + s.substring(i+2, s.length());
+	                i = -1; // 처음부터 다시 비교
+	            }
+	            
+	        }
+	        
+	        System.out.print(answer21);
 		}
 		
 		// 더 맵게
