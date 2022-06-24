@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -43,8 +44,8 @@ class Programmers {
 		Level1 level1 = new Level1();
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
-		//level1.solution3();
-		level2.solution20();
+		level1.specialSolution();
+		//level2.solution20();
 		//level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
@@ -55,6 +56,48 @@ class Programmers {
 	}
 
 	public static class Level1 {
+		
+		// 네이버 부스트캠프 자가진단 함수 구현
+		public void specialSolution() {
+			int[] arr = {1, 2, 3, 3, 3, 3, 4, 4};
+			HashMap<Integer, Integer>map = new HashMap<Integer, Integer>();
+			int answerSize = 0;
+			for(int key : arr) {
+				int value = 1;
+				// 중복될 경우 value를 1 증가시켜준다.
+				if(map.containsKey(key)) {
+					value = map.get(key);
+					value++;
+					if(value == 2)
+						answerSize++;
+				}
+				map.put(key, value);
+			}
+			
+			
+			int[] answer0;
+			if(answerSize == 0) {
+				answer0 = new int[1];
+				answer0[0] = -1;
+			}
+			else {
+				int i=0;
+				answer0 = new int [answerSize];
+				for(Integer key : arr) {
+					// map.remove 를 사용했기 때문에 null 방지 위해
+					if(!map.containsKey(key))
+						continue;
+					if(map.get(key) != 1) {
+						answer0[i++] = map.get(key);
+						map.remove(key);	// 한 번 값을 가져온 건 또 가져오지 않기 위해서 제거
+					}
+				}
+			}
+			
+			for(int e : answer0) {
+				System.out.print(e + " ");
+			}
+		}
 		
 		// 소수 만들기
 		public void solution3() {
