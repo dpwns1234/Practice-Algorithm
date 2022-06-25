@@ -45,7 +45,7 @@ class Programmers {
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
 		//level1.specialSolution();
-		level2.solution21();
+		//level2.solution21();
 		//level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
@@ -60,7 +60,6 @@ class Programmers {
 		// 네이버 부스트캠프 자가진단 함수 구현
 		public void specialSolution() {
 			String s = "22";
-			s.
 			int[] arr = {1, 2, 3, 3, 3, 3, 4, 4};
 			HashMap<Integer, Integer>map = new HashMap<Integer, Integer>();
 			int answerSize = 0;
@@ -211,29 +210,45 @@ class Programmers {
 			}
 		}
 		
+
 		// 짝지어 제거하기
 		public void solution21() {
-	        int answer21 = 0;
-	        String s = "baabaa";
-	        for(int i=0; i<s.length()-1; i++) {
-	            // 원소가 하나만 남았다면 reutrn 0;
-	            if(s.length() == 1) {
-	            	answer21 = 0;
-	                break;
-	            }
+			String s = "baabcc";
+	        int answer21 = 1;
+	        boolean[] removed = new boolean [s.length()];
+	        for(boolean e : removed) {
+	            e = false;
+	        }
+	        
+	        // 전체 길이 짝수인지 확인
+	        if(s.length() % 2 == 0) {
+	            // 동일한 문자 사이에 있는 숫자의 개수(=num)가 짝수지 확인
+	            for(int i=0; i<s.length()-1; i++) {
+	                if(removed[i] == true)
+	                    continue;
 	                
-	            if(s.charAt(i) == s.charAt(i+1)) {
-	                // 마지막 두 원소까지 같다면 return 1;
-	                if(s.length() <= 2) {
-	                	answer21 = 1;
-	                    break;
+	                int num = 0;
+	                for(int j=i+1; j<s.length(); j++) {
+	                    if(removed[j] == true)
+	                        continue;
+	                    
+	                    if(s.charAt(i) == s.charAt(j)) {
+	                        removed[j] = true;
+	                        break;
+	                    }
+	                    else
+	                        num++;
 	                }
 	                
-	                s = s.substring(0, i) + s.substring(i+2, s.length());
-	                i = -1; // 처음부터 다시 비교
+	                // 두 문자 사이의 문자 개수가 홀수면 실패한 경우이므로 0을 리턴
+	                if(num % 2 != 0) {
+	                	answer21 = 0;
+	                    break;
+	                }
 	            }
-	            
 	        }
+	        else
+	        	answer21 = 0;
 	        
 	        System.out.print(answer21);
 		}
