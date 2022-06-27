@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ class Programmers {
 		Level2 level2 = new Level2(); 
 		Level3 level3 = new Level3();
 		//level1.specialSolution();
-		//level2.solution21();
+		level2.solution21();
 		//level3.solution2();
 		//System.out.println(a);
 		//System.out.println(answer);
@@ -213,44 +214,37 @@ class Programmers {
 
 		// 짝지어 제거하기
 		public void solution21() {
-			String s = "baabcc";
-	        int answer21 = 1;
-	        boolean[] removed = new boolean [s.length()];
-	        for(boolean e : removed) {
-	            e = false;
+			String s = "baabdc";
+	        int answer21 = 0;
+	        if(s.length() % 2 != 0) {
+	        	answer21 = 0;
+	        	return;
 	        }
 	        
-	        // 전체 길이 짝수인지 확인
-	        if(s.length() % 2 == 0) {
-	            // 동일한 문자 사이에 있는 숫자의 개수(=num)가 짝수지 확인
-	            for(int i=0; i<s.length()-1; i++) {
-	                if(removed[i] == true)
-	                    continue;
-	                
-	                int num = 0;
-	                for(int j=i+1; j<s.length(); j++) {
-	                    if(removed[j] == true)
-	                        continue;
-	                    
-	                    if(s.charAt(i) == s.charAt(j)) {
-	                        removed[j] = true;
-	                        break;
-	                    }
-	                    else
-	                        num++;
-	                }
-	                
-	                // 두 문자 사이의 문자 개수가 홀수면 실패한 경우이므로 0을 리턴
-	                if(num % 2 != 0) {
-	                	answer21 = 0;
-	                    break;
-	                }
+	        Stack<Character> stack = new Stack<>();
+	        stack.push(s.charAt(0)); // 초기값 설정
+	        for(int i=1; i<s.length(); i++) {
+	        	// 비어져 있음 새로 채우고 다음 원소로 넘어간다.
+	            if(stack.isEmpty()) {
+	                stack.push(s.charAt(i));
+	                continue;
 	            }
+	            
+	            // 그 애니팡처럼 새로 들어오는 문자가 원래 있던 문자랑 같으면 펑 하고 사라지도록 해준다.
+	            if(stack.peek() == s.charAt(i))
+	                stack.pop();
+	            else
+	                stack.push(s.charAt(i));
+	            
 	        }
+	        
+	        // 스택이 비어있으면 성공
+	        if(stack.isEmpty())
+	            answer21 = 1;
 	        else
 	        	answer21 = 0;
 	        
-	        System.out.print(answer21);
+	        System.out.println(answer21);
 		}
 		
 		// 더 맵게
