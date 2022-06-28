@@ -15,7 +15,44 @@ public class Backjoon {
 	// for p1063
 	
 	public static void main(String[] args) {
-		p1025();
+		p1978();
+	}
+	
+	// 소수 찾기 - silver 5
+	public static void p1978() {
+		int n;
+		
+		// input
+		Scanner scr = new Scanner(System.in);
+		n = scr.nextInt();
+		int[] yj = new int [n];
+		for(int i=0; i<n; i++) {
+			yj[i] = scr.nextInt();
+		}
+		
+		int num = 0;
+		for(int i=0; i<n; i++) {
+			// 소수 찾기 fun
+			boolean isPrime = true;
+			// 값이 0이나 1일 경우 소수 아님
+			if(yj[i] == 0 || yj[i] == 1) {
+				isPrime = false;
+				continue;
+			}
+			for(int j=2; j<=Math.sqrt(yj[i]); j++) {
+				// 1과 자신 외에 나눠지는 수가 있으면 소수 아님
+				if(yj[i] % j == 0) {
+					isPrime = false;
+					break;
+				}
+			}
+			
+			if(isPrime) {
+				num++;
+			}
+		}
+		
+		System.out.println(num);
 	}
 	
 	public static void p1025() {
